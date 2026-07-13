@@ -301,23 +301,23 @@ function playSecretSound(){
 }
 /* ===== MESSAGES ===== */
 var messages=[
-    "あの…","やめてよ〜","うぅ…ひどい…","えーん！","泣いちゃうよ…",
-    "もう…","ぷんぷん！","ばか！","うわーん！","ぐすん…",
-    "アノン東京！","ひっく…","やだやだ！","いたいよ〜",
-    "もう知らない！","ぴえん🥺","えええ〜ん","なんで〜",
-    "ひどいよぉ…","うぅぅ…","ちょっと！","なによそれ！",
-    "や、やめて…","ぽかぽか！","むー！","ぐやしい…"
+    "那个…","别这样啦~","呜…好过分…","诶—嗯！","要哭了啦…",
+    "真是的…","哼！哼！","笨蛋！","呜哇—！","呜咽…",
+    "ANON东京！","抽泣…","讨厌讨厌！","好疼啊~",
+    "不理你了！","嘤嘤🥺","诶诶诶—嗯","为什么~",
+    "太过分了…","呜呜…","喂！","这算什么嘛！",
+    "不、不要…","啪啪打你！","唔—！","好不甘心…"
 ];
 var cryMessages=[
-    "うわーん！！！","えーーーん！！！","大泣き！！","ぐすんぐすん…",
-    "わーーーん！","ひっくひっく…","もうダメ…","泣き止まない！",
-    "たすけて〜！！","誰か〜！！","ひどすぎるよぉ！！"
+    "呜哇——！！！","诶——嗯！！！","大哭特哭！！","呜呜咽咽…",
+    "哇——！","一抽一抽…","不行了…","停不下来了！",
+    "救救我~！！","谁来帮帮我~！！","太过分了吧！！"
 ];
 var comboMessages=[
-    "そんなに連打しないで！","あああっ！","ちょ、ちょっと待って！",
-    "速すぎるよ〜！","ひぃぃ！","やめてやめてやめて！"
+    "别连点这么快！","啊啊啊！","等、等一下！",
+    "太快了啦~！","咿咿！","住手住手住手！"
 ];
-var rageMessages=["💢 怒った！","😡 もう許さない！","🤬 バカバカ！","💥 爆発する！"];
+var rageMessages=["💢 生气了！","😡 绝不原谅！","🤬 笨蛋笨蛋！","💥 要爆炸了！"];
 
 function getRandomMessage(arr){
     var msg;do{msg=arr[Math.floor(Math.random()*arr.length)];}while(msg===lastMessage && arr.length>1);
@@ -332,7 +332,7 @@ function showSpeech(text,dur){
 /* ===== ACHIEVEMENTS ===== */
 var achievements=[
     {t:10,m:"🏆 初触爱音！",g:false},{t:30,m:"🌟 爱音的朋友！",g:false},
-    {t:50,m:"💕 爱音推し！",g:false},{t:69,m:"😏 妮可妮可妮~",g:true},
+    {t:50,m:"💕 爱音单推！",g:false},{t:69,m:"😏 妮可妮可妮~",g:true},
     {t:100,m:"👑 爱音大师！",g:false},{t:200,m:"🎀 爱音狂热者！",g:false},
     {t:404,m:"🔍 404 Not Found 爱音",g:true},{t:500,m:"💎 传奇爱音厨！",g:false},
     {t:777,m:"🍀 Lucky 777！",g:true},{t:1000,m:"✨ ANON TOKYO！",g:false},
@@ -456,18 +456,18 @@ function triggerSecret(code){
     secretCodes[code]=true;easterEggs++;easterEggsEl.textContent=easterEggs;
     playSecretSound();
     var secrets={
-        "ANON":"🎀 アノン東京！Chihaya Anon 降臨！",
-        "MYGO":"🤘 It's MyGO!!!!! 迷子でも進め！",
-        "CRY":"😭 泣き虫愛音モード起動！",
-        "LOVE":"💗 愛音大好き！ずっと推し続ける！",
-        "HELP":"🆘 助けてあげない！もっと泣け〜！",
-        "777":"🍀 ジャックポット！",
-        "RAINBOW":"🌈 レインボーモード！",
-        "RAGE":"😡 愛音激怒！",
-        "NANO":"🎸 猫猫登場！にゃ〜",
-        "TOKYO":"🗼 Welcome to ANON TOKYO!"
+        "ANON":"🎀 🎀 ANON东京！千早爱音降临！",
+        "MYGO":"🤘 🤘 It's MyGO!!!!! 迷茫也要前进！",
+        "CRY":"😭 😭 哭包爱音模式启动！",
+        "LOVE":"💗 💗 爱音最喜欢了！永远推下去！",
+        "HELP":"🆘 🆘 才不帮你呢！继续哭吧~！",
+        "777":"🍀 🍀 中大奖了！",
+        "RAINBOW":"🌈 🌈 彩虹模式！",
+        "RAGE":"😡 😡 爱音暴怒！",
+        "NANO":"🎸 🎸 猫猫登场！喵~",
+        "TOKYO":"🗼 🗼 欢迎来到ANON东京！"
     };
-    var msg=secrets[code]||"🔮 謎のシークレット！";
+    var msg=secrets[code]||"🔮 🔮 谜之秘密！";
     secretBox.innerHTML="<div style='font-size:3rem;margin-bottom:10px'>"+msg.split(" ")[0]+"</div><div>"+msg+"</div>";
     secretOverlay.classList.add("show");
     setTimeout(function(){secretOverlay.classList.remove("show");},2500);
@@ -542,10 +542,10 @@ function handleClick(e){
     checkAchievements();
 
     // Combo milestones
-    if(currentCombo===10){showSpeech("😱 10連打！！",2000);}
-    if(currentCombo===30){showToast("⚡ 30連擊！閃電愛音！");flashScreen();spawnConfetti();randomImage();}
-    if(currentCombo===50){showToast("🔥 50連擊！愛音要爆炸了！");flashScreen();spawnConfetti();randomImage();}
-    if(currentCombo===100){showToast("💥💥 100連擊！！傳說級！！");flashScreen();flashScreen();spawnConfetti();spawnConfetti();randomImage();triggerSecret("HELP");}
+    if(currentCombo===10){showSpeech("😱 10连打！！",2000);}
+    if(currentCombo===30){showToast("⚡ 30连击！闪电爱音！");flashScreen();spawnConfetti();randomImage();}
+    if(currentCombo===50){showToast("🔥 50连击！爱音要爆炸了！");flashScreen();spawnConfetti();randomImage();}
+    if(currentCombo===100){showToast("💥💥 100连击！！传说级！！");flashScreen();flashScreen();spawnConfetti();spawnConfetti();randomImage();triggerSecret("HELP");}
 
     // Random image switch on high combo
     if(currentCombo>0 && currentCombo%15===0){randomImage();}
@@ -658,7 +658,7 @@ window.addEventListener("beforeunload",saveStats);
 loadStats();
 createParticles();createBgHearts();updateStats();updateCryMeter();
 
-setTimeout(function(){showSpeech("クリックしてね ♡",3000);},1500);
+setTimeout(function(){showSpeech("点我试试吧 ♡",3000);},1500);
 
 console.log("%c♡ 爱音洗脑网 v2.0 ♡ %c已就绪！","color:#ff7eb3;font-size:1.2em;font-weight:bold;","color:#ffb6d3;");
 console.log("%c新功能：多图片切换 | 30+成就 | 彩蛋 | 右键暴哭 | 键盘快捷键","color:#ffb6d3;");
