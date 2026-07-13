@@ -8,180 +8,131 @@
     <meta property="og:title" content="爱音洗脑网" />
     <meta property="og:description" content="献给《BanG Dream! It's MyGO!!!!!》最可爱的千早爱音" />
     <style>
-        :root { --pink: #ff7eb3; --pink-light: #ffb6d3; --pink-dark: #e85d8c; --bg: #1a1a2e; }
+        :root {
+            --pink: #ff7eb3; --pink-light: #ffb6d3; --pink-dark: #e85d8c;
+            --bg: #1a1a2e; --bg2: #2d1b3d; --bg3: #3d1b3d;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 30%, #3d1b3d 60%, #1a1a2e 100%);
+            font-family: "PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--bg2) 30%, var(--bg3) 60%, var(--bg) 100%);
             background-attachment: fixed; min-height: 100vh; overflow-x: hidden;
-            cursor: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22none%22 stroke=%22%23ff7eb3%22 stroke-width=%222%22/><circle cx=%2216%22 cy=%2213%22 r=%223%22 fill=%22%23ff7eb3%22 opacity=%220.6%22/></svg>") 16 16, auto;
             -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none;
+            transition: background 2s ease;
         }
-        .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-        .particle { position: absolute; border-radius: 50%; pointer-events: none; animation: floatUp linear infinite; opacity: 0; }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; } 90% { opacity: 0.2; }
-            100% { transform: translateY(-100px) scale(1) rotate(720deg); opacity: 0; }
+        body.rage-mode { --bg:#3d0a0a;--bg2:#4a1010;--bg3:#3d0a0a; }
+        body.rainbow-mode { animation: rainbowBg 3s linear infinite; }
+        @keyframes rainbowBg {
+            0%{background:linear-gradient(135deg,#1a1a2e,#2d1b3d,#2d1b3d,#1a1a2e)}
+            25%{background:linear-gradient(135deg,#2d1b3d,#3d1b3d,#3d1b3d,#2d1b3d)}
+            50%{background:linear-gradient(135deg,#1a2e2e,#1b3d3d,#1b3d3d,#1a2e2e)}
+            75%{background:linear-gradient(135deg,#2e1a2e,#3d1b3d,#3d1b3d,#2e1a2e)}
+            100%{background:linear-gradient(135deg,#1a1a2e,#2d1b3d,#2d1b3d,#1a1a2e)}
         }
-        .main-container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-        .header { text-align: center; margin-bottom: 10px; animation: slideDown 0.8s ease-out; }
-        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .header .title {
-            font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
-            background: linear-gradient(135deg, #ff7eb3, #ff4081, #ffb6d3);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            letter-spacing: 4px; margin-bottom: 8px;
-            animation: titleGlow 2s ease-in-out infinite alternate;
-        }
-        @keyframes titleGlow {
-            0% { filter: drop-shadow(0 0 8px rgba(255,126,179,0.4)); }
-            100% { filter: drop-shadow(0 0 20px rgba(255,126,179,0.8)); }
-        }
-        .header .subtitle { font-size: 1rem; color: #ffb6d3; letter-spacing: 2px; opacity: 0.8; }
-        .character-card {
-            position: relative; width: min(420px, 90vw);
-            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-            border-radius: 30px; padding: 30px 20px 25px;
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(255,126,179,0.25);
-            box-shadow: 0 20px 60px rgba(255,64,129,0.15), 0 0 80px rgba(255,126,179,0.08), inset 0 1px 0 rgba(255,255,255,0.1);
-            display: flex; flex-direction: column; align-items: center;
-            transition: all 0.3s ease; animation: cardAppear 1s ease-out 0.2s both;
-        }
-        @keyframes cardAppear { from { transform: scale(0.8) translateY(30px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-        .character-card:hover {
-            border-color: rgba(255,126,179,0.5);
-            box-shadow: 0 25px 70px rgba(255,64,129,0.25), 0 0 100px rgba(255,126,179,0.15), inset 0 1px 0 rgba(255,255,255,0.15);
-        }
-        .character-display { position: relative; width: 280px; height: 280px; cursor: pointer; transition: transform 0.15s ease; margin-bottom: 10px; }
-        .character-display:active { transform: scale(0.92); }
-        .character-display.poked { animation: pokeBounce 0.5s ease; }
-        @keyframes pokeBounce {
-            0% { transform: scale(1); } 30% { transform: scale(0.85); }
-            50% { transform: scale(1.08); } 70% { transform: scale(0.95); } 100% { transform: scale(1); }
-        }
-        .character-display.crying { animation: cryShake 0.6s ease-in-out; }
-        @keyframes cryShake {
-            0%,100% { transform: translateX(0); } 15% { transform: translateX(-8px) rotate(-3deg); }
-            30% { transform: translateX(8px) rotate(3deg); } 45% { transform: translateX(-6px) rotate(-2deg); }
-            60% { transform: translateX(6px) rotate(2deg); } 75% { transform: translateX(-3px) rotate(-1deg); }
-            90% { transform: translateX(3px) rotate(1deg); }
-        }
-        .character-img {
-            width: 100%; height: 100%; object-fit: contain; border-radius: 20px;
-            filter: drop-shadow(0 10px 30px rgba(255,126,179,0.4)); transition: filter 0.3s;
-        }
-        .character-display:hover .character-img { filter: drop-shadow(0 15px 40px rgba(255,126,179,0.6)); }
-        .click-ring {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 200px; height: 200px; border-radius: 50%;
-            border: 2px dashed rgba(255,126,179,0.3); pointer-events: none;
-            animation: ringPulse 3s ease-in-out infinite;
-        }
-        @keyframes ringPulse {
-            0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; }
-            50% { transform: translate(-50%,-50%) scale(1.15); opacity: 0.15; }
-        }
-        .ripple {
-            position: absolute; border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,126,179,0.6), transparent);
-            pointer-events: none; animation: rippleOut 0.8s ease-out forwards;
-        }
-        @keyframes rippleOut { from { width: 0; height: 0; opacity: 1; } to { width: 300px; height: 300px; opacity: 0; } }
-        .stats { display: flex; gap: 30px; margin-top: 15px; flex-wrap: wrap; justify-content: center; }
-        .stat-item { text-align: center; animation: statPop 0.6s ease-out both; }
-        .stat-item:nth-child(1) { animation-delay: 0.4s; } .stat-item:nth-child(2) { animation-delay: 0.5s; } .stat-item:nth-child(3) { animation-delay: 0.6s; }
-        @keyframes statPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .stat-number { font-size: 2rem; font-weight: 900; color: #ff7eb3; text-shadow: 0 0 20px rgba(255,126,179,0.5); line-height: 1; }
-        .stat-label { font-size: 0.8rem; color: #ffb6d3; margin-top: 4px; letter-spacing: 1px; opacity: 0.7; }
-        .name-tag {
-            margin-top: 15px; padding: 8px 28px;
-            background: linear-gradient(135deg, rgba(255,126,179,0.2), rgba(255,64,129,0.15));
-            border-radius: 50px; border: 1px solid rgba(255,126,179,0.3);
-            font-size: 1.1rem; color: #ffb6d3; letter-spacing: 3px; font-weight: 600;
-            animation: fadeIn 1s ease-out 0.7s both;
-        }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .speech-bubble {
-            position: absolute; top: -45px; left: 50%;
-            transform: translateX(-50%) scale(0);
-            background: rgba(255,255,255,0.95); color: #e85d8c;
-            padding: 10px 18px; border-radius: 20px;
-            font-size: 0.95rem; font-weight: 700; letter-spacing: 1px;
-            white-space: nowrap; pointer-events: none;
-            transition: transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 10;
-        }
-        .speech-bubble.show { transform: translateX(-50%) scale(1); }
-        .speech-bubble::after {
-            content: ""; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
-            width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent;
-            border-top: 10px solid rgba(255,255,255,0.95);
-        }
-        .tear {
-            position: absolute; width: 10px; height: 14px;
-            background: linear-gradient(180deg, #87ceeb, #4da6ff);
-            border-radius: 50% 0 50% 50%; transform: rotate(45deg);
-            pointer-events: none; animation: tearDrop 1.2s ease-in forwards; z-index: 5;
-        }
-        @keyframes tearDrop {
-            0% { opacity: 1; transform: rotate(45deg) translateY(0); }
-            100% { opacity: 0; transform: rotate(45deg) translateY(80px); }
-        }
-        .float-emoji {
-            position: absolute; font-size: 1.5rem; pointer-events: none;
-            animation: emojiFloat 1.5s ease-out forwards; z-index: 10;
-        }
-        @keyframes emojiFloat {
-            0% { opacity: 1; transform: translateY(0) scale(0.5); }
-            30% { opacity: 1; transform: translateY(-40px) scale(1.2); }
-            100% { opacity: 0; transform: translateY(-120px) scale(0.3); }
-        }
-        .footer {
-            margin-top: 30px; text-align: center; color: rgba(255,182,211,0.5);
-            font-size: 0.8rem; letter-spacing: 2px; animation: fadeIn 1.5s ease-out 0.8s both;
-        }
-        .footer .heart { color: #ff7eb3; animation: heartbeat 1.5s ease-in-out infinite; display: inline-block; }
-        @keyframes heartbeat {
-            0%,100% { transform: scale(1); } 25% { transform: scale(1.2); } 50% { transform: scale(1); } 75% { transform: scale(1.15); }
-        }
-        .toast {
-            position: fixed; top: 30px; left: 50%;
-            transform: translateX(-50%) translateY(-120px);
-            background: linear-gradient(135deg, #ff7eb3, #ff4081);
-            color: white; padding: 12px 30px; border-radius: 50px;
-            font-weight: 700; letter-spacing: 2px; font-size: 0.95rem; z-index: 100;
-            box-shadow: 0 10px 40px rgba(255,64,129,0.4);
-            transition: transform 0.5s cubic-bezier(0.175,0.885,0.32,1.275); pointer-events: none;
-        }
-        .toast.show { transform: translateX(-50%) translateY(0); }
-        .bg-heart {
-            position: fixed; pointer-events: none; z-index: 0;
-            animation: heartBgFloat 15s linear infinite; font-size: 2rem; opacity: 0.06;
-        }
-        @keyframes heartBgFloat {
-            0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); }
-        }
-        .combo-display {
-            position: fixed; top: 50%; right: 30px; transform: translateY(-50%);
-            text-align: center; z-index: 5; pointer-events: none; opacity: 0; transition: all 0.4s ease;
-        }
-        .combo-display.active { opacity: 1; }
-        .combo-number { font-size: 3rem; font-weight: 900; color: #ff7eb3; text-shadow: 0 0 30px rgba(255,126,179,0.8); line-height: 1; }
-        .combo-label { font-size: 0.7rem; color: #ffb6d3; letter-spacing: 2px; margin-top: 4px; }
-        .screen-flash {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(255,126,179,0.3), transparent);
-            pointer-events: none; z-index: 50; opacity: 0; transition: opacity 0.15s ease;
-        }
-        .screen-flash.active { opacity: 1; }
-        @media (max-width: 480px) {
-            .character-display { width: 220px; height: 220px; }
-            .click-ring { width: 160px; height: 160px; }
-            .stats { gap: 20px; } .stat-number { font-size: 1.5rem; }
-            .header .title { font-size: 1.8rem; }
-            .combo-display { right: 10px; } .combo-number { font-size: 2rem; }
+
+        .particles-container { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0; }
+        .particle { position:absolute;border-radius:50%;pointer-events:none;animation:floatUp linear infinite;opacity:0; }
+        @keyframes floatUp{0%{transform:translateY(100vh)scale(0)rotate(0deg);opacity:0}10%{opacity:0.8}90%{opacity:0.2}100%{transform:translateY(-100px)scale(1)rotate(720deg);opacity:0}}
+
+        .main-container{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+        .header{text-align:center;margin-bottom:10px;animation:slideDown 0.8s ease-out;}
+        @keyframes slideDown{from{transform:translateY(-50px);opacity:0}to{transform:translateY(0);opacity:1}}
+        .header .title{font-size:clamp(1.8rem,5vw,3.5rem);font-weight:900;background:linear-gradient(135deg,#ff7eb3,#ff4081,#ffb6d3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:4px;margin-bottom:8px;animation:titleGlow 2s ease-in-out infinite alternate;}
+        @keyframes titleGlow{0%{filter:drop-shadow(0 0 8px rgba(255,126,179,0.4))}100%{filter:drop-shadow(0 0 20px rgba(255,126,179,0.8))}}
+        .header .subtitle{font-size:1rem;color:#ffb6d3;letter-spacing:2px;opacity:0.8;}
+
+        .character-card{position:relative;width:min(480px,92vw);background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));border-radius:30px;padding:25px 20px 20px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:2px solid rgba(255,126,179,0.25);box-shadow:0 20px 60px rgba(255,64,129,0.15),0 0 80px rgba(255,126,179,0.08),inset 0 1px 0 rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;transition:all 0.3s ease;animation:cardAppear 1s ease-out 0.2s both;}
+        @keyframes cardAppear{from{transform:scale(0.8)translateY(30px);opacity:0}to{transform:scale(1)translateY(0);opacity:1}}
+        .character-card:hover{border-color:rgba(255,126,179,0.5);box-shadow:0 25px 70px rgba(255,64,129,0.25),0 0 100px rgba(255,126,179,0.15),inset 0 1px 0 rgba(255,255,255,0.15);}
+
+        .character-display{position:relative;width:300px;height:300px;cursor:pointer;transition:transform 0.15s ease;margin-bottom:8px;}
+        .character-display:active{transform:scale(0.92);}
+        .character-display.poked{animation:pokeBounce 0.5s ease;}
+        @keyframes pokeBounce{0%{transform:scale(1)}30%{transform:scale(0.85)}50%{transform:scale(1.08)}70%{transform:scale(0.95)}100%{transform:scale(1)}}
+        .character-display.crying{animation:cryShake 0.6s ease-in-out;}
+        @keyframes cryShake{0%,100%{transform:translateX(0)}15%{transform:translateX(-8px)rotate(-3deg)}30%{transform:translateX(8px)rotate(3deg)}45%{transform:translateX(-6px)rotate(-2deg)}60%{transform:translateX(6px)rotate(2deg)}75%{transform:translateX(-3px)rotate(-1deg)}90%{transform:translateX(3px)rotate(1deg)}}
+        .character-display.megacry{animation:megaCry 0.3s ease-in-out 3;}
+        @keyframes megaCry{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+
+        .character-img{width:100%;height:100%;object-fit:contain;border-radius:20px;filter:drop-shadow(0 10px 30px rgba(255,126,179,0.4));transition:all 0.3s;}
+        .character-display:hover .character-img{filter:drop-shadow(0 15px 40px rgba(255,126,179,0.6));}
+        .character-img.switching{animation:imgSwitch 0.3s ease;}
+        @keyframes imgSwitch{0%{opacity:0;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
+
+        .click-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:220px;height:220px;border-radius:50%;border:2px dashed rgba(255,126,179,0.3);pointer-events:none;animation:ringPulse 3s ease-in-out infinite;}
+        @keyframes ringPulse{0%,100%{transform:translate(-50%,-50%)scale(1);opacity:0.5}50%{transform:translate(-50%,-50%)scale(1.15);opacity:0.15}}
+
+        /* Image badge */
+        .img-badge{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.6);color:#ffb6d3;padding:3px 8px;border-radius:10px;font-size:0.7rem;letter-spacing:1px;pointer-events:none;z-index:5;transition:opacity 0.5s;}
+
+        /* Gallery thumbnails */
+        .gallery{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;justify-content:center;}
+        .gallery-thumb{width:48px;height:48px;border-radius:10px;cursor:pointer;object-fit:cover;border:2px solid transparent;transition:all 0.2s;opacity:0.6;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.3));}
+        .gallery-thumb:hover{opacity:1;border-color:#ff7eb3;transform:scale(1.15);}
+        .gallery-thumb.active{opacity:1;border-color:#ff7eb3;box-shadow:0 0 12px rgba(255,126,179,0.5);}
+
+        /* Cry intensity meter */
+        .cry-meter-wrap{width:80%;max-width:300px;margin:10px auto 0;}
+        .cry-meter-label{display:flex;justify-content:space-between;font-size:0.65rem;color:#ffb6d3;margin-bottom:3px;letter-spacing:1px;}
+        .cry-meter-bar{height:8px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden;}
+        .cry-meter-fill{height:100%;background:linear-gradient(90deg,#87ceeb,#4da6ff,#ff7eb3,#ff4081);border-radius:10px;transition:width 0.5s ease;width:0%;}
+
+        .ripple{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,126,179,0.6),transparent);pointer-events:none;animation:rippleOut 0.8s ease-out forwards;}
+        @keyframes rippleOut{from{width:0;height:0;opacity:1}to{width:300px;height:300px;opacity:0}}
+
+        .stats{display:flex;gap:20px;margin-top:12px;flex-wrap:wrap;justify-content:center;}
+        .stat-item{text-align:center;animation:statPop 0.6s ease-out both;min-width:60px;}
+        .stat-item:nth-child(1){animation-delay:0.4s}.stat-item:nth-child(2){animation-delay:0.5s}.stat-item:nth-child(3){animation-delay:0.6s}.stat-item:nth-child(4){animation-delay:0.7s}.stat-item:nth-child(5){animation-delay:0.8s}
+        @keyframes statPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+        .stat-number{font-size:1.8rem;font-weight:900;color:#ff7eb3;text-shadow:0 0 20px rgba(255,126,179,0.5);line-height:1;}
+        .stat-label{font-size:0.7rem;color:#ffb6d3;margin-top:3px;letter-spacing:1px;opacity:0.7;}
+        .stat-number.rage{color:#ff4444;animation:rageShake 0.1s infinite;}
+        @keyframes rageShake{0%,100%{transform:translate(0,0)}50%{transform:translate(2px,-2px)}}
+
+        .name-tag{margin-top:12px;padding:8px 28px;background:linear-gradient(135deg,rgba(255,126,179,0.2),rgba(255,64,129,0.15));border-radius:50px;border:1px solid rgba(255,126,179,0.3);font-size:1.1rem;color:#ffb6d3;letter-spacing:3px;font-weight:600;animation:fadeIn 1s ease-out 0.7s both;}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+        .speech-bubble{position:absolute;top:-50px;left:50%;transform:translateX(-50%)scale(0);background:rgba(255,255,255,0.95);color:#e85d8c;padding:10px 18px;border-radius:20px;font-size:0.95rem;font-weight:700;letter-spacing:1px;white-space:nowrap;pointer-events:none;transition:transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);box-shadow:0 5px 20px rgba(0,0,0,0.2);z-index:10;max-width:260px;text-align:center;}
+        .speech-bubble.show{transform:translateX(-50%)scale(1);}
+        .speech-bubble::after{content:"";position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid rgba(255,255,255,0.95);}
+
+        .tear{position:absolute;width:10px;height:14px;background:linear-gradient(180deg,#87ceeb,#4da6ff);border-radius:50% 0 50% 50%;transform:rotate(45deg);pointer-events:none;animation:tearDrop 1.2s ease-in forwards;z-index:5;}
+        @keyframes tearDrop{0%{opacity:1;transform:rotate(45deg)translateY(0)}100%{opacity:0;transform:rotate(45deg)translateY(80px)}}
+
+        .float-emoji{position:absolute;font-size:1.5rem;pointer-events:none;animation:emojiFloat 1.5s ease-out forwards;z-index:10;}
+        @keyframes emojiFloat{0%{opacity:1;transform:translateY(0)scale(0.5)}30%{opacity:1;transform:translateY(-40px)scale(1.2)}100%{opacity:0;transform:translateY(-120px)scale(0.3)}}
+
+        .footer{margin-top:25px;text-align:center;color:rgba(255,182,211,0.5);font-size:0.8rem;letter-spacing:2px;animation:fadeIn 1.5s ease-out 0.8s both;}
+        .footer .heart{color:#ff7eb3;animation:heartbeat 1.5s ease-in-out infinite;display:inline-block;}
+        @keyframes heartbeat{0%,100%{transform:scale(1)}25%{transform:scale(1.2)}50%{transform:scale(1)}75%{transform:scale(1.15)}}
+
+        .toast{position:fixed;top:30px;left:50%;transform:translateX(-50%)translateY(-120px);background:linear-gradient(135deg,#ff7eb3,#ff4081);color:#fff;padding:12px 30px;border-radius:50px;font-weight:700;letter-spacing:2px;font-size:0.95rem;z-index:100;box-shadow:0 10px 40px rgba(255,64,129,0.4);transition:transform 0.5s cubic-bezier(0.175,0.885,0.32,1.275);pointer-events:none;}
+        .toast.show{transform:translateX(-50%)translateY(0);}
+        .toast.golden{background:linear-gradient(135deg,#ffde59,#ffa500);box-shadow:0 10px 40px rgba(255,165,0,0.5);}
+
+        .bg-heart{position:fixed;pointer-events:none;z-index:0;animation:heartBgFloat 15s linear infinite;font-size:2rem;opacity:0.06;}
+        @keyframes heartBgFloat{0%{transform:translateY(100vh)rotate(0deg)}100%{transform:translateY(-10vh)rotate(360deg)}}
+
+        .combo-display{position:fixed;top:50%;right:30px;transform:translateY(-50%);text-align:center;z-index:5;pointer-events:none;opacity:0;transition:all 0.4s ease;}
+        .combo-display.active{opacity:1;}
+        .combo-number{font-size:3rem;font-weight:900;color:#ff7eb3;text-shadow:0 0 30px rgba(255,126,179,0.8);line-height:1;}
+        .combo-label{font-size:0.7rem;color:#ffb6d3;letter-spacing:2px;margin-top:4px;}
+
+        .screen-flash{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at center,rgba(255,126,179,0.3),transparent);pointer-events:none;z-index:50;opacity:0;transition:opacity 0.15s ease;}
+        .screen-flash.active{opacity:1;}
+
+        /* Secret overlay */
+        .secret-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:200;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity 0.5s;}
+        .secret-overlay.show{opacity:1;pointer-events:all;}
+        .secret-box{text-align:center;color:#ffb6d3;font-size:2rem;animation:secretPop 0.5s ease;}
+        @keyframes secretPop{0%{transform:scale(0)rotate(180deg)}100%{transform:scale(1)rotate(0deg)}}
+
+        /* Confetti */
+        .confetti{position:fixed;pointer-events:none;z-index:150;animation:confettiFall linear forwards;}
+        @keyframes confettiFall{0%{transform:translateY(-100px)rotate(0deg);opacity:1}100%{transform:translateY(110vh)rotate(720deg);opacity:0}}
+
+        @media(max-width:480px){
+            .character-display{width:240px;height:240px}.click-ring{width:170px;height:170px}.stats{gap:12px}.stat-number{font-size:1.4rem}.header .title{font-size:1.6rem}.combo-display{right:5px}.combo-number{font-size:2rem}.gallery-thumb{width:38px;height:38px}
         }
     </style>
 </head>
@@ -190,10 +141,10 @@
     <div class="particles-container" id="particles"></div>
     <div class="screen-flash" id="screenFlash"></div>
     <div class="toast" id="toast"></div>
-    <div class="combo-display" id="comboDisplay">
-        <div class="combo-number" id="comboNumber">0</div>
-        <div class="combo-label">C O M B O</div>
-    </div>
+    <div class="combo-display" id="comboDisplay"><div class="combo-number" id="comboNumber">0</div><div class="combo-label">C O M B O</div></div>
+    <div class="secret-overlay" id="secretOverlay"><div class="secret-box" id="secretBox"></div></div>
+    <audio id="cryAudio" src="anon_cry.m4a" preload="auto"></audio>
+
     <div class="main-container">
         <div class="header">
             <h1 class="title">♡ 爱音洗脑网 ♡</h1>
@@ -204,392 +155,514 @@
             <div class="character-display" id="characterDisplay">
                 <div class="click-ring"></div>
                 <div class="speech-bubble" id="speechBubble"></div>
-
                 <img class="character-img" src="anon_cry.gif" alt="千早爱音" id="characterImg" />
+                <div class="img-badge" id="imgBadge">📷 1/4</div>
+            </div>
+
+            <div class="gallery" id="gallery">
+                <img class="gallery-thumb active" src="anon_cry.gif" data-src="anon_cry.gif" data-name="唐哭GIF" />
+                <img class="gallery-thumb" src="images/anon_01.webp" data-src="images/anon_01.webp" data-name="爱音1" />
+                <img class="gallery-thumb" src="images/anon_02.jpg" data-src="images/anon_02.jpg" data-name="爱音2" />
+                <img class="gallery-thumb" src="images/anon_03.gif" data-src="images/anon_03.gif" data-name="爱音GIF" />
+                <img class="gallery-thumb" src="images/anon_04.png" data-src="images/anon_04.png" data-name="爱音3" />
+            </div>
+
+            <div class="cry-meter-wrap">
+                <div class="cry-meter-label"><span>😊 冷静</span><span>😭 爆哭</span></div>
+                <div class="cry-meter-bar"><div class="cry-meter-fill" id="cryMeterFill"></div></div>
             </div>
 
             <div class="name-tag">千 早 爱 音</div>
 
             <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-number" id="clickCount">0</div>
-                    <div class="stat-label">点 击 次 数</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="cryCount">0</div>
-                    <div class="stat-label">哭 哭 次 数</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="comboBest">0</div>
-                    <div class="stat-label">最 高 连 击</div>
-                </div>
+                <div class="stat-item"><div class="stat-number" id="clickCount">0</div><div class="stat-label">点 击</div></div>
+                <div class="stat-item"><div class="stat-number" id="cryCount">0</div><div class="stat-label">哭 哭</div></div>
+                <div class="stat-item"><div class="stat-number" id="comboBest">0</div><div class="stat-label">连 击</div></div>
+                <div class="stat-item"><div class="stat-number" id="imgSwitchCount">0</div><div class="stat-label">换 图</div></div>
+                <div class="stat-item"><div class="stat-number" id="easterEggs">0</div><div class="stat-label">彩 蛋</div></div>
             </div>
         </div>
 
         <div class="footer">
             <p>献给 <span class="heart">♡</span> 《BanG Dream! It's MyGO!!!!!》 最可爱的 <span class="heart">千早爱音</span> <span class="heart">♡</span></p>
-            <p style="margin-top:6px;opacity:0.5;font-size:0.7rem;">Anon Chihaya Brainwash Site | 点一点爱音吧~</p>
+            <p style="margin-top:4px;opacity:0.4;font-size:0.65rem;">按 A-N-O-N 触发彩蛋 | 快速连点换图 | 右键长按暴哭模式</p>
         </div>
     </div>
-
-    <audio id="cryAudio" src="anon_cry.m4a" preload="auto"></audio>
     <script>
-(function() {
-    var totalClicks = 0;
-    var totalCries = 0;
-    var bestCombo = 0;
-    var currentCombo = 0;
-    var comboTimer = null;
-    var COMBO_TIMEOUT = 1500;
-    var audioCtx = null;
-    var lastMessage = "";
-    var lastAchievement = -1;
+(function(){
+var totalClicks=0,totalCries=0,bestCombo=0,currentCombo=0,comboTimer=null,COMBO_TIMEOUT=1500;
+var audioCtx=null,lastMessage="",lastAchievement=-1,imgSwitchCount=0,easterEggs=0;
+var cryIntensity=0,konamiProgress="",isRageMode=false,isRainbowMode=false;
+var secretCodes={};
 
-    var characterDisplay = document.getElementById("characterDisplay");
-    var speechBubble = document.getElementById("speechBubble");
-    var screenFlash = document.getElementById("screenFlash");
-    var toast = document.getElementById("toast");
-    var comboDisplay = document.getElementById("comboDisplay");
-    var comboNumber = document.getElementById("comboNumber");
-    var clickCountEl = document.getElementById("clickCount");
-    var cryCountEl = document.getElementById("cryCount");
-    var comboBestEl = document.getElementById("comboBest");
-    function initAudio() {
-        if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === "suspended") { audioCtx.resume(); }
+var characterDisplay=document.getElementById("characterDisplay");
+var characterImg=document.getElementById("characterImg");
+var speechBubble=document.getElementById("speechBubble");
+var screenFlash=document.getElementById("screenFlash");
+var toast=document.getElementById("toast");
+var comboDisplay=document.getElementById("comboDisplay");
+var comboNumber=document.getElementById("comboNumber");
+var clickCountEl=document.getElementById("clickCount");
+var cryCountEl=document.getElementById("cryCount");
+var comboBestEl=document.getElementById("comboBest");
+var imgSwitchCountEl=document.getElementById("imgSwitchCount");
+var easterEggsEl=document.getElementById("easterEggs");
+var cryMeterFill=document.getElementById("cryMeterFill");
+var imgBadge=document.getElementById("imgBadge");
+var secretOverlay=document.getElementById("secretOverlay");
+var secretBox=document.getElementById("secretBox");
+var body=document.body;
+
+/* ===== IMAGE SYSTEM ===== */
+var images=[
+    {src:"anon_cry.gif",name:"唐哭GIF"},
+    {src:"images/anon_01.webp",name:"爱音1"},
+    {src:"images/anon_02.jpg",name:"爱音2"},
+    {src:"images/anon_03.gif",name:"爱音GIF"},
+    {src:"images/anon_04.png",name:"爱音3"}
+];
+var currentImgIndex=0;
+var totalImagesViewed=[0]; // will expand
+
+function switchImage(index){
+    if(index===currentImgIndex)return;
+    currentImgIndex=index;
+    characterImg.classList.add("switching");
+    characterImg.src=images[index].src;
+    imgBadge.textContent="📷 "+(index+1)+"/"+images.length;
+    imgSwitchCount++;
+    imgSwitchCountEl.textContent=imgSwitchCount;
+    // Update gallery active state
+    var thumbs=document.querySelectorAll(".gallery-thumb");
+    thumbs.forEach(function(t,i){t.classList.toggle("active",i===index);});
+    setTimeout(function(){characterImg.classList.remove("switching");},300);
+    // Track viewed
+    if(!totalImagesViewed[index]){totalImagesViewed[index]=0;}
+    totalImagesViewed[index]++;
+    checkImgAchievements();
+}
+
+function randomImage(){
+    var newIdx;
+    do{newIdx=Math.floor(Math.random()*images.length);}while(newIdx===currentImgIndex && images.length>1);
+    switchImage(newIdx);
+}
+
+/* ===== AUDIO ===== */
+function initAudio(){
+    if(!audioCtx){audioCtx=new(window.AudioContext||window.webkitAudioContext)();}
+    if(audioCtx.state==="suspended"){audioCtx.resume();}
+}
+
+function playCrySound(){
+    initAudio();
+    var audio=document.getElementById("cryAudio");
+    if(audio){
+        audio.currentTime=0;
+        // Pitch shift for variety
+        if(currentCombo>=30){audio.playbackRate=0.7+(Math.random()*0.4);}
+        else{audio.playbackRate=0.85+(Math.random()*0.3);}
+        audio.play().catch(function(e){console.log("Audio:",e);});
     }
+}
 
-    /* Anon crying sound - real audio recording */
-    function playCrySound() {
-        initAudio();
-        var audio = document.getElementById("cryAudio");
-        if (audio) {
-            audio.currentTime = 0;
-            audio.play().catch(function(e) {
-                console.log("Audio play failed:", e);
-            });
-        }
-    }
-/* Cute pop sound for normal clicks */
-    function playPopSound() {
-        if (!audioCtx) initAudio();
-        if (!audioCtx) return;
-        var now = audioCtx.currentTime;
-        var osc = audioCtx.createOscillator();
-        var gain = audioCtx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(800, now);
-        osc.frequency.exponentialRampToValueAtTime(400, now + 0.08);
-        gain.gain.setValueAtTime(0.15, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start(now);
-        osc.stop(now + 0.12);
-    }
+function playPopSound(){
+    if(!audioCtx)initAudio();if(!audioCtx)return;
+    var now=audioCtx.currentTime;
+    var o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type="sine";o.frequency.setValueAtTime(600+Math.random()*400,now);
+    o.frequency.exponentialRampToValueAtTime(300,now+0.08);
+    g.gain.setValueAtTime(0.12,now);g.gain.exponentialRampToValueAtTime(0.001,now+0.1);
+    o.connect(g);g.connect(audioCtx.destination);o.start(now);o.stop(now+0.12);
+}
 
-    /* Achievement fanfare */
-    function playAchievementSound() {
-        if (!audioCtx) initAudio();
-        if (!audioCtx) return;
-        var now = audioCtx.currentTime;
-        var notes = [523, 659, 784, 1047];
-        notes.forEach(function(freq, i) {
-            var osc = audioCtx.createOscillator();
-            var gain = audioCtx.createGain();
-            osc.type = "triangle";
-            osc.frequency.value = freq;
-            gain.gain.setValueAtTime(0, now + i * 0.1);
-            gain.gain.linearRampToValueAtTime(0.12, now + i * 0.1 + 0.02);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.3);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(now + i * 0.1);
-            osc.stop(now + i * 0.1 + 0.35);
-        });
-    }
-
-    /* Speech bubble messages */
-    var messages = [
-        "あの…", "やめてよ〜", "うぅ…ひどい…", "えーん！", "泣いちゃうよ…",
-        "もう…", "ぷんぷん！", "ばか！", "うわーん！", "ぐすん…",
-        "アノン東京！", "ひっく…", "やだやだ！", "いたいよ〜",
-        "もう知らない！", "ぴえん🥺", "えええ〜ん", "なんで〜", "ひどいよぉ…", "うぅぅ…"
-    ];
-
-    var cryMessages = [
-        "うわーん！！！", "えーーーん！！！", "大泣き！！", "ぐすんぐすん…",
-        "わーーーん！", "ひっくひっく…", "もうダメ…", "泣き止まない！"
-    ];
-
-    function getRandomMessage(arr) {
-        var msg;
-        do { msg = arr[Math.floor(Math.random() * arr.length)]; }
-        while (msg === lastMessage && arr.length > 1);
-        lastMessage = msg;
-        return msg;
-    }
-
-    function showSpeechBubble(text, duration) {
-        duration = duration || 1800;
-        speechBubble.textContent = text;
-        speechBubble.classList.add("show");
-        clearTimeout(speechBubble._timeout);
-        speechBubble._timeout = setTimeout(function() {
-            speechBubble.classList.remove("show");
-        }, duration);
-    }
-
-    function createRipple(x, y) {
-        var ripple = document.createElement("div");
-        ripple.className = "ripple";
-        ripple.style.left = x + "px";
-        ripple.style.top = y + "px";
-        ripple.style.transform = "translate(-50%, -50%)";
-        characterDisplay.appendChild(ripple);
-        setTimeout(function() { ripple.remove(); }, 800);
-    }
-
-    function createTear(x, y) {
-        var tear = document.createElement("div");
-        tear.className = "tear";
-        tear.style.left = x + "px";
-        tear.style.top = y + "px";
-        characterDisplay.appendChild(tear);
-        setTimeout(function() { tear.remove(); }, 1200);
-    }
-
-    function createFloatEmoji(x, y) {
-        var emojis = ["💧", "😢", "💕", "✨", "😭", "💦", "🥺", "🎀", "💗"];
-        var emoji = document.createElement("div");
-        emoji.className = "float-emoji";
-        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        emoji.style.left = x + "px";
-        emoji.style.top = y + "px";
-        characterDisplay.appendChild(emoji);
-        setTimeout(function() { emoji.remove(); }, 1500);
-    }
-
-    function flashScreen() {
-        screenFlash.classList.add("active");
-        setTimeout(function() { screenFlash.classList.remove("active"); }, 150);
-    }
-
-    function showToast(message) {
-        toast.textContent = message;
-        toast.classList.add("show");
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(function() {
-            toast.classList.remove("show");
-        }, 2500);
-    }
-
-    function updateCombo() {
-        clearTimeout(comboTimer);
-        if (currentCombo >= 5) { comboDisplay.classList.add("active"); }
-        comboNumber.textContent = currentCombo;
-        if (currentCombo > bestCombo) {
-            bestCombo = currentCombo;
-            comboBestEl.textContent = bestCombo;
-        }
-        comboTimer = setTimeout(function() {
-            if (currentCombo >= 5) { comboDisplay.classList.remove("active"); }
-            currentCombo = 0;
-            comboNumber.textContent = "0";
-        }, COMBO_TIMEOUT);
-    }
-
-    var achievements = [
-        { threshold: 10, message: "🏆 达成成就：初触爱音！" },
-        { threshold: 30, message: "🌟 达成成就：爱音的朋友！" },
-        { threshold: 50, message: "💕 达成成就：爱音推し！" },
-        { threshold: 100, message: "👑 达成成就：爱音大师！" },
-        { threshold: 200, message: "🎀 达成成就：爱音狂热者！" },
-        { threshold: 500, message: "💎 达成成就：传奇爱音厨！" },
-        { threshold: 1000, message: "✨ 达成成就：ANON TOKYO！" }
-    ];
-
-    function checkAchievements() {
-        for (var i = achievements.length - 1; i >= 0; i--) {
-            if (totalClicks >= achievements[i].threshold && i > lastAchievement) {
-                lastAchievement = i;
-                showToast(achievements[i].message);
-                playAchievementSound();
-                break;
-            }
-        }
-    }
-
-    function updateStats() {
-        clickCountEl.textContent = totalClicks;
-        cryCountEl.textContent = totalCries;
-        comboBestEl.textContent = bestCombo;
-    }
-
-    var cryTimeout = null;
-    function showCryingFace() {
-        var img = document.getElementById("characterImg");
-        if (img) { img.style.filter = "drop-shadow(0 10px 30px rgba(255,126,179,0.8)) brightness(1.1)"; }
-        clearTimeout(cryTimeout);
-        cryTimeout = setTimeout(function() {
-            if (img) { img.style.filter = "drop-shadow(0 10px 30px rgba(255,126,179,0.4))"; }
-        }, 1500);
-    }
-
-    /* Main click handler */
-    function handleClick(e) {
-        initAudio();
-        totalClicks++;
-        currentCombo++;
-        var rect = characterDisplay.getBoundingClientRect();
-        var x = e.clientX - rect.left;
-        var y = e.clientY - rect.top;
-        var isCry = Math.random() < 0.3 || currentCombo % 10 === 0;
-
-        if (isCry) {
-            totalCries++;
-            playCrySound();
-            characterDisplay.classList.add("crying");
-            showCryingFace();
-            showSpeechBubble(getRandomMessage(cryMessages), 2000);
-            createTear(x - 25, y - 40);
-            createTear(x + 25, y - 40);
-            setTimeout(function() {
-                createTear(x - 20, y - 35);
-                createTear(x + 20, y - 35);
-            }, 300);
-            createFloatEmoji(x - 10, y - 30);
-            createFloatEmoji(x + 10, y - 20);
-            flashScreen();
-            setTimeout(function() { characterDisplay.classList.remove("crying"); }, 600);
-        } else {
-            playPopSound();
-            characterDisplay.classList.add("poked");
-            showSpeechBubble(getRandomMessage(messages), 1500);
-            createFloatEmoji(x, y - 20);
-            setTimeout(function() { characterDisplay.classList.remove("poked"); }, 500);
-        }
-
-        createRipple(x, y);
-        updateCombo();
-        updateStats();
-        checkAchievements();
-
-        /* Combo milestones */
-        if (currentCombo > 0 && currentCombo % 20 === 0) {
-            showToast("🔥 " + currentCombo + " 连击！爱音要哭晕过去啦！");
-            flashScreen();
-        }
-        if (currentCombo > 0 && currentCombo % 50 === 0) {
-            showToast("💥 超级连击 " + currentCombo + "！！爱音大暴哭！！");
-            flashScreen();
-            for (var i = 0; i < 8; i++) {
-                (function(idx) {
-                    setTimeout(function() {
-                        createTear(
-                            x + (Math.random() - 0.5) * 80,
-                            y + (Math.random() - 0.5) * 60
-                        );
-                    }, idx * 80);
-                })(i);
-            }
-        }
-    }
-
-    /* Background particles */
-    function createParticles() {
-        var container = document.getElementById("particles");
-        var colors = ["#ff7eb3","#ffb6d3","#ff4081","#ffde59","#87ceeb","#dda0dd"];
-        function addParticle() {
-            var p = document.createElement("div");
-            p.className = "particle";
-            p.style.left = Math.random() * 100 + "%";
-            p.style.width = (Math.random() * 8 + 3) + "px";
-            p.style.height = p.style.width;
-            p.style.background = colors[Math.floor(Math.random() * colors.length)];
-            p.style.animationDuration = (Math.random() * 10 + 8) + "s";
-            container.appendChild(p);
-            setTimeout(function() { p.remove(); }, 18000);
-        }
-        for (var i = 0; i < 20; i++) { setTimeout(addParticle, i * 200); }
-        setInterval(function() { if (!document.hidden) addParticle(); }, 1500);
-    }
-
-    /* Background hearts */
-    function createBgHearts() {
-        var container = document.getElementById("bgHearts");
-        var hearts = ["♡","♥","♡","💕","♡"];
-        function addHeart() {
-            var h = document.createElement("div");
-            h.className = "bg-heart";
-            h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-            h.style.left = Math.random() * 95 + "%";
-            h.style.animationDuration = (Math.random() * 20 + 15) + "s";
-            h.style.fontSize = (Math.random() * 2 + 1.5) + "rem";
-            container.appendChild(h);
-            setTimeout(function() { h.remove(); }, 35000);
-        }
-        for (var i = 0; i < 8; i++) { setTimeout(addHeart, i * 1500); }
-        setInterval(function() { if (!document.hidden) addHeart(); }, 4000);
-    }
-
-    /* Event listeners */
-    characterDisplay.addEventListener("click", handleClick);
-    characterDisplay.addEventListener("touchstart", function(e) {
-        e.preventDefault();
-        var touch = e.touches[0];
-        handleClick({ clientX: touch.clientX, clientY: touch.clientY });
-    }, { passive: false });
-
-    /* Keyboard support */
-    document.addEventListener("keydown", function(e) {
-        if (e.code === "Space" || e.code === "Enter") {
-            e.preventDefault();
-            var rect = characterDisplay.getBoundingClientRect();
-            handleClick({ clientX: rect.left + rect.width / 2, clientY: rect.top + rect.height / 2 });
-        }
+function playAchievementSound(){
+    if(!audioCtx)initAudio();if(!audioCtx)return;
+    var now=audioCtx.currentTime;
+    [523,659,784,1047,1319].forEach(function(f,i){
+        var o=audioCtx.createOscillator(),g=audioCtx.createGain();
+        o.type="triangle";o.frequency.value=f;
+        g.gain.setValueAtTime(0,now+i*0.08);g.gain.linearRampToValueAtTime(0.1,now+i*0.08+0.02);
+        g.gain.exponentialRampToValueAtTime(0.001,now+i*0.08+0.25);
+        o.connect(g);g.connect(audioCtx.destination);o.start(now+i*0.08);o.stop(now+i*0.08+0.3);
     });
+}
 
-    /* LocalStorage persistence */
-    function saveStats() {
-        try {
-            localStorage.setItem("anon_stats", JSON.stringify({
-                clicks: totalClicks, cries: totalCries,
-                bestCombo: bestCombo, lastAchievement: lastAchievement
-            }));
-        } catch(e) {}
+function playSecretSound(){
+    if(!audioCtx)initAudio();if(!audioCtx)return;
+    var now=audioCtx.currentTime;
+    [784,988,1175,1319,1568,1175,1319,1568].forEach(function(f,i){
+        var o=audioCtx.createOscillator(),g=audioCtx.createGain();
+        o.type="sine";o.frequency.value=f;
+        g.gain.setValueAtTime(0,now+i*0.12);g.gain.linearRampToValueAtTime(0.08,now+i*0.12+0.02);
+        g.gain.exponentialRampToValueAtTime(0.001,now+i*0.12+0.3);
+        o.connect(g);g.connect(audioCtx.destination);o.start(now+i*0.12);o.stop(now+i*0.12+0.35);
+    });
+}
+/* ===== MESSAGES ===== */
+var messages=[
+    "あの…","やめてよ〜","うぅ…ひどい…","えーん！","泣いちゃうよ…",
+    "もう…","ぷんぷん！","ばか！","うわーん！","ぐすん…",
+    "アノン東京！","ひっく…","やだやだ！","いたいよ〜",
+    "もう知らない！","ぴえん🥺","えええ〜ん","なんで〜",
+    "ひどいよぉ…","うぅぅ…","ちょっと！","なによそれ！",
+    "や、やめて…","ぽかぽか！","むー！","ぐやしい…"
+];
+var cryMessages=[
+    "うわーん！！！","えーーーん！！！","大泣き！！","ぐすんぐすん…",
+    "わーーーん！","ひっくひっく…","もうダメ…","泣き止まない！",
+    "たすけて〜！！","誰か〜！！","ひどすぎるよぉ！！"
+];
+var comboMessages=[
+    "そんなに連打しないで！","あああっ！","ちょ、ちょっと待って！",
+    "速すぎるよ〜！","ひぃぃ！","やめてやめてやめて！"
+];
+var rageMessages=["💢 怒った！","😡 もう許さない！","🤬 バカバカ！","💥 爆発する！"];
+
+function getRandomMessage(arr){
+    var msg;do{msg=arr[Math.floor(Math.random()*arr.length)];}while(msg===lastMessage && arr.length>1);
+    lastMessage=msg;return msg;
+}
+
+function showSpeech(text,dur){
+    dur=dur||1800;speechBubble.textContent=text;speechBubble.classList.add("show");
+    clearTimeout(speechBubble._t);speechBubble._t=setTimeout(function(){speechBubble.classList.remove("show");},dur);
+}
+
+/* ===== ACHIEVEMENTS ===== */
+var achievements=[
+    {t:10,m:"🏆 初触爱音！",g:false},{t:30,m:"🌟 爱音的朋友！",g:false},
+    {t:50,m:"💕 爱音推し！",g:false},{t:69,m:"😏 妮可妮可妮~",g:true},
+    {t:100,m:"👑 爱音大师！",g:false},{t:200,m:"🎀 爱音狂热者！",g:false},
+    {t:404,m:"🔍 404 Not Found 爱音",g:true},{t:500,m:"💎 传奇爱音厨！",g:false},
+    {t:777,m:"🍀 Lucky 777！",g:true},{t:1000,m:"✨ ANON TOKYO！",g:false},
+    {t:1500,m:"🌏 爱音世界征服",g:false},{t:2000,m:"🚀 爱音星际航行！",g:true},
+    {t:3000,m:"👾 爱音次元突破",g:true},{t:5000,m:"🏅 爱音传说",g:true},
+    {t:10000,m:"🌟 爱音之神！",g:true},
+    // Cry achievements
+    {t:-20,m:"😢 小哭包",g:false,cry:true},{t:-50,m:"💧 泪腺崩坏",g:false,cry:true},
+    {t:-100,m:"🌊 眼泪成海！",g:true,cry:true},{t:-200,m:"🌌 泪水银河",g:true,cry:true},
+    // Combo achievements
+    {t:-30,m:"⚡ 闪电连击",g:false,combo:true},{t:-50,m:"🔥 灼热连击",g:true,combo:true},
+    {t:-100,m:"💥 爆裂连击王",g:true,combo:true},
+    // Image achievements
+    {t:-2,m:"📸 爱音收藏家",g:false,img:true},{t:-5,m:"🖼 爱音画廊",g:true,img:true},
+    {t:-10,m:"🎞 爱音图鉴完成",g:true,img:true},
+    // Easter egg achievements
+    {t:-1,m:"🥚 彩蛋猎人！",g:true,egg:true},{t:-3,m:"🐣 彩蛋大师",g:true,egg:true},
+    {t:-5,m:"🐉 彩蛋神龙",g:true,egg:true}
+];
+var unlockedAch=[];
+
+function checkAchievements(){
+    for(var i=achievements.length-1;i>=0;i--){
+        var a=achievements[i];
+        if(unlockedAch.indexOf(i)>=0)continue;
+        var met=false;
+        if(a.cry){met=totalCries>=Math.abs(a.t);}
+        else if(a.combo){met=bestCombo>=Math.abs(a.t);}
+        else if(a.img){met=imgSwitchCount>=Math.abs(a.t);}
+        else if(a.egg){met=easterEggs>=Math.abs(a.t);}
+        else{met=totalClicks>=a.t;}
+        if(met){
+            unlockedAch.push(i);
+            showToast((a.g?"🌟 ":"")+a.m,a.g);
+            playAchievementSound();
+            if(a.g){spawnConfetti();}
+            if(i>lastAchievement)lastAchievement=i;
+            break;
+        }
+    }
+}
+
+function checkImgAchievements(){
+    var viewed=totalImagesViewed.filter(function(v){return v>0;}).length;
+    if(viewed>=5 && unlockedAch.indexOf(achievements.findIndex(function(a){return a.img && a.t===-10;}))<0){
+        // trigger image achievement check via main path
+    }
+    checkAchievements();
+}
+
+/* ===== VISUAL EFFECTS ===== */
+function createRipple(x,y){
+    var r=document.createElement("div");r.className="ripple";
+    r.style.left=x+"px";r.style.top=y+"px";r.style.transform="translate(-50%,-50%)";
+    characterDisplay.appendChild(r);setTimeout(function(){r.remove();},800);
+}
+
+function createTear(x,y){
+    var t=document.createElement("div");t.className="tear";
+    t.style.left=x+"px";t.style.top=y+"px";
+    characterDisplay.appendChild(t);setTimeout(function(){t.remove();},1200);
+}
+
+function createFloatEmoji(x,y){
+    var e=["💧","😢","💕","✨","😭","💦","🥺","🎀","💗","😿","💝","🌸","💮","🎵"];
+    var em=document.createElement("div");em.className="float-emoji";
+    em.textContent=e[Math.floor(Math.random()*e.length)];
+    em.style.left=x+"px";em.style.top=y+"px";
+    characterDisplay.appendChild(em);setTimeout(function(){em.remove();},1500);
+}
+
+function flashScreen(){screenFlash.classList.add("active");setTimeout(function(){screenFlash.classList.remove("active");},150);}
+
+function showToast(message,isGolden){
+    toast.textContent=message;toast.classList.add("show");
+    if(isGolden)toast.classList.add("golden");
+    clearTimeout(toast._t);
+    toast._t=setTimeout(function(){toast.classList.remove("show","golden");},2800);
+}
+
+function spawnConfetti(){
+    var colors=["#ff7eb3","#ff4081","#ffde59","#87ceeb","#ffb6d3","#a0ff7e","#ffa0d0","#a0d0ff"];
+    for(var i=0;i<40;i++){
+        setTimeout(function(){
+            var c=document.createElement("div");c.className="confetti";
+            c.style.left=Math.random()*100+"%";c.style.top="-20px";
+            c.style.width=(Math.random()*10+6)+"px";c.style.height=(Math.random()*10+6)+"px";
+            c.style.background=colors[Math.floor(Math.random()*colors.length)];
+            c.style.borderRadius=Math.random()>0.5?"50%":"2px";
+            c.style.animationDuration=(Math.random()*2+2)+"s";
+            c.style.animationDelay=Math.random()*0.5+"s";
+            document.body.appendChild(c);
+            setTimeout(function(){c.remove();},3500);
+        },i*30);
+    }
+}
+
+function updateCryMeter(){
+    var pct=Math.min(100,Math.floor(cryIntensity*10));
+    cryMeterFill.style.width=pct+"%";
+    if(pct>80){cryMeterFill.style.background="linear-gradient(90deg,#ff4081,#ff0000)";}
+    else if(pct>50){cryMeterFill.style.background="linear-gradient(90deg,#ff7eb3,#ff4081)";}
+    else{cryMeterFill.style.background="linear-gradient(90deg,#87ceeb,#4da6ff,#ff7eb3)";}
+}
+
+/* ===== COMBO ===== */
+function updateCombo(){
+    clearTimeout(comboTimer);
+    if(currentCombo>=5){comboDisplay.classList.add("active");}
+    comboNumber.textContent=currentCombo;
+    if(currentCombo>bestCombo){bestCombo=currentCombo;comboBestEl.textContent=bestCombo;}
+    comboTimer=setTimeout(function(){
+        if(currentCombo>=5){comboDisplay.classList.remove("active");}
+        currentCombo=0;comboNumber.textContent="0";cryIntensity=Math.max(0,cryIntensity-1);updateCryMeter();
+    },COMBO_TIMEOUT);
+}
+
+/* ===== EASTER EGGS ===== */
+function triggerSecret(code){
+    if(secretCodes[code])return;
+    secretCodes[code]=true;easterEggs++;easterEggsEl.textContent=easterEggs;
+    playSecretSound();
+    var secrets={
+        "ANON":"🎀 アノン東京！Chihaya Anon 降臨！",
+        "MYGO":"🤘 It's MyGO!!!!! 迷子でも進め！",
+        "CRY":"😭 泣き虫愛音モード起動！",
+        "LOVE":"💗 愛音大好き！ずっと推し続ける！",
+        "HELP":"🆘 助けてあげない！もっと泣け〜！",
+        "777":"🍀 ジャックポット！",
+        "RAINBOW":"🌈 レインボーモード！",
+        "RAGE":"😡 愛音激怒！",
+        "NANO":"🎸 猫猫登場！にゃ〜",
+        "TOKYO":"🗼 Welcome to ANON TOKYO!"
+    };
+    var msg=secrets[code]||"🔮 謎のシークレット！";
+    secretBox.innerHTML="<div style='font-size:3rem;margin-bottom:10px'>"+msg.split(" ")[0]+"</div><div>"+msg+"</div>";
+    secretOverlay.classList.add("show");
+    setTimeout(function(){secretOverlay.classList.remove("show");},2500);
+    if(code==="RAINBOW"){isRainbowMode=true;body.classList.add("rainbow-mode");setTimeout(function(){isRainbowMode=false;body.classList.remove("rainbow-mode");},10000);}
+    if(code==="RAGE"){isRageMode=true;body.classList.add("rage-mode");cryMeterFill.style.width="100%";cryMeterFill.style.background="linear-gradient(90deg,#ff0000,#ff4444)";setTimeout(function(){isRageMode=false;body.classList.remove("rage-mode");updateCryMeter();},8000);}
+    spawnConfetti();checkAchievements();
+}
+/* ===== RIGHT-CLICK / LONG PRESS (MEGA CRY) ===== */
+var longPressTimer=null;
+characterDisplay.addEventListener("contextmenu",function(e){e.preventDefault();});
+characterDisplay.addEventListener("mousedown",function(e){
+    if(e.button===2){ // right click
+        longPressTimer=setTimeout(function(){triggerMegaCry(e);},500);
+    }
+});
+characterDisplay.addEventListener("mouseup",function(){clearTimeout(longPressTimer);});
+characterDisplay.addEventListener("touchstart",function(e){
+    longPressTimer=setTimeout(function(){
+        var t=e.touches[0];triggerMegaCry({clientX:t.clientX,clientY:t.clientY});
+    },800);
+},{passive:false});
+characterDisplay.addEventListener("touchend",function(){clearTimeout(longPressTimer);});
+characterDisplay.addEventListener("touchmove",function(){clearTimeout(longPressTimer);});
+
+function triggerMegaCry(e){
+    initAudio();totalClicks++;totalCries+=3;cryIntensity=Math.min(10,cryIntensity+3);
+    currentCombo+=5;
+    playCrySound();
+    characterDisplay.classList.add("megacry");
+    showSpeech("💥💥 大 爆 哭 ！！💥💥",2500);
+    var rect=characterDisplay.getBoundingClientRect();
+    var x=e.clientX-rect.left,y=e.clientY-rect.top;
+    for(var i=0;i<12;i++){setTimeout(function(){createTear(x+(Math.random()-0.5)*100,y+(Math.random()-0.5)*80);},i*60);}
+    for(var j=0;j<6;j++){createFloatEmoji(x+(Math.random()-0.5)*60,y+(Math.random()-0.5)*40);}
+    flashScreen();flashScreen();
+    createRipple(x,y);
+    updateCombo();updateCryMeter();updateStats();checkAchievements();
+    randomImage();
+    setTimeout(function(){characterDisplay.classList.remove("megacry");},900);
+}
+
+/* ===== MAIN CLICK ===== */
+function handleClick(e){
+    initAudio();totalClicks++;currentCombo++;
+
+    var rect=characterDisplay.getBoundingClientRect();
+    var x=e.clientX-rect.left,y=e.clientY-rect.top;
+    var isCry=Math.random()<0.35 || currentCombo%10===0;
+
+    if(isCry){
+        totalCries++;cryIntensity=Math.min(10,cryIntensity+1);
+        playCrySound();
+        characterDisplay.classList.add("crying");
+        showSpeech(getRandomMessage(cryMessages),2000);
+        createTear(x-25,y-40);createTear(x+25,y-40);
+        setTimeout(function(){createTear(x-20,y-35);createTear(x+20,y-35);},300);
+        createFloatEmoji(x-10,y-30);createFloatEmoji(x+10,y-20);
+        flashScreen();
+        setTimeout(function(){characterDisplay.classList.remove("crying");},600);
+    }else{
+        playPopSound();
+        characterDisplay.classList.add("poked");
+        showSpeech(getRandomMessage(messages),1500);
+        createFloatEmoji(x,y-20);
+        setTimeout(function(){characterDisplay.classList.remove("poked");},500);
     }
 
-    function loadStats() {
-        try {
-            var saved = JSON.parse(localStorage.getItem("anon_stats"));
-            if (saved) {
-                totalClicks = saved.clicks || 0;
-                totalCries = saved.cries || 0;
-                bestCombo = saved.bestCombo || 0;
-                lastAchievement = saved.lastAchievement || -1;
-                updateStats();
-                checkAchievements();
-            }
-        } catch(e) {}
-    }
-
-    setInterval(saveStats, 5000);
-    window.addEventListener("beforeunload", saveStats);
-    loadStats();
-    createParticles();
-    createBgHearts();
+    createRipple(x,y);
+    updateCryMeter();
+    updateCombo();
     updateStats();
+    checkAchievements();
 
-    /* Initial greeting */
-    setTimeout(function() {
-        showSpeechBubble("クリックしてね ♡", 3000);
-    }, 1500);
+    // Combo milestones
+    if(currentCombo===10){showSpeech("😱 10連打！！",2000);}
+    if(currentCombo===30){showToast("⚡ 30連擊！閃電愛音！");flashScreen();spawnConfetti();randomImage();}
+    if(currentCombo===50){showToast("🔥 50連擊！愛音要爆炸了！");flashScreen();spawnConfetti();randomImage();}
+    if(currentCombo===100){showToast("💥💥 100連擊！！傳說級！！");flashScreen();flashScreen();spawnConfetti();spawnConfetti();randomImage();triggerSecret("HELP");}
 
-    console.log("%c♡ 爱音洗脑网 ♡ %c已就绪！","color:#ff7eb3;font-size:1.2em;font-weight:bold;","color:#ffb6d3;");
-    console.log("%c点一点千早爱音，听她可爱的哭声吧~ %c(｡•́︿•̀｡)","color:#ffb6d3;","color:#ff7eb3;font-size:1.1em;");
+    // Random image switch on high combo
+    if(currentCombo>0 && currentCombo%15===0){randomImage();}
+
+    // Rage mode
+    if(isRageMode && Math.random()<0.5){showSpeech(getRandomMessage(rageMessages),1200);}
+}
+
+/* ===== STATS ===== */
+function updateStats(){
+    clickCountEl.textContent=totalClicks;cryCountEl.textContent=totalCries;
+    comboBestEl.textContent=bestCombo;imgSwitchCountEl.textContent=imgSwitchCount;
+    easterEggsEl.textContent=easterEggs;
+}
+
+/* ===== KEYBOARD EASTER EGGS ===== */
+var keyBuffer="";
+var keyTimer=null;
+document.addEventListener("keydown",function(e){
+    // Space/Enter = click
+    if(e.code==="Space"||e.code==="Enter"){
+        e.preventDefault();
+        var rect=characterDisplay.getBoundingClientRect();
+        handleClick({clientX:rect.left+rect.width/2,clientY:rect.top+rect.height/2});
+        return;
+    }
+    // Arrow keys = switch image
+    if(e.code==="ArrowLeft"){e.preventDefault();switchImage((currentImgIndex-1+images.length)%images.length);return;}
+    if(e.code==="ArrowRight"){e.preventDefault();switchImage((currentImgIndex+1)%images.length);return;}
+    if(e.code==="ArrowUp"||e.code==="ArrowDown"){e.preventDefault();randomImage();return;}
+
+    // Collect letters for secret codes
+    if(e.key.length===1 && e.key.match(/[a-zA-Z]/)){
+        keyBuffer+=e.key.toUpperCase();
+        clearTimeout(keyTimer);
+        keyTimer=setTimeout(function(){keyBuffer="";},2000);
+        // Check known codes
+        var codes=["ANON","MYGO","CRY","LOVE","HELP","NANO","TOKYO","RAINBOW","RAGE"];
+        for(var i=0;i<codes.length;i++){
+            if(keyBuffer.indexOf(codes[i])>=0){
+                triggerSecret(codes[i]);
+                keyBuffer="";break;
+            }
+        }
+    }
+    // Number keys for direct image selection
+    if(e.key>="1" && e.key<="5"){
+        var idx=parseInt(e.key)-1;
+        if(idx<images.length){switchImage(idx);}
+    }
+});
+
+/* ===== GALLERY CLICKS ===== */
+var galleryThumbs=document.querySelectorAll(".gallery-thumb");
+galleryThumbs.forEach(function(thumb,index){
+    thumb.addEventListener("click",function(e){
+        e.stopPropagation();
+        switchImage(index);
+        // Small feedback
+        initAudio();playPopSound();
+        totalClicks++;updateStats();checkAchievements();
+    });
+});
+
+/* ===== PARTICLES ===== */
+function createParticles(){
+    var c=document.getElementById("particles");
+    var colors=["#ff7eb3","#ffb6d3","#ff4081","#ffde59","#87ceeb","#dda0dd","#ffa0d0","#a0d0ff"];
+    function add(){var p=document.createElement("div");p.className="particle";p.style.left=Math.random()*100+"%";p.style.width=(Math.random()*8+3)+"px";p.style.height=p.style.width;p.style.background=colors[Math.floor(Math.random()*colors.length)];p.style.animationDuration=(Math.random()*10+8)+"s";c.appendChild(p);setTimeout(function(){p.remove();},18000);}
+    for(var i=0;i<25;i++){setTimeout(add,i*200);}
+    setInterval(function(){if(!document.hidden)add();},1500);
+}
+
+function createBgHearts(){
+    var c=document.getElementById("bgHearts");var h=["♡","♥","♡","💕","♡","💗","💖"];
+    function add(){var d=document.createElement("div");d.className="bg-heart";d.textContent=h[Math.floor(Math.random()*h.length)];d.style.left=Math.random()*95+"%";d.style.animationDuration=(Math.random()*20+15)+"s";d.style.fontSize=(Math.random()*2+1.5)+"rem";c.appendChild(d);setTimeout(function(){d.remove();},35000);}
+    for(var i=0;i<10;i++){setTimeout(add,i*1500);}
+    setInterval(function(){if(!document.hidden)add();},4000);
+}
+
+/* ===== SAVE/LOAD ===== */
+function saveStats(){
+    try{localStorage.setItem("anon_stats_v2",JSON.stringify({
+        clicks:totalClicks,cries:totalCries,bestCombo:bestCombo,
+        lastAchievement:lastAchievement,imgSwitchCount:imgSwitchCount,
+        easterEggs:easterEggs,unlockedAch:unlockedAch,totalImagesViewed:totalImagesViewed,
+        currentImgIndex:currentImgIndex
+    }));}catch(e){}
+}
+function loadStats(){
+    try{var s=JSON.parse(localStorage.getItem("anon_stats_v2"));
+        if(s){totalClicks=s.clicks||0;totalCries=s.cries||0;bestCombo=s.bestCombo||0;lastAchievement=s.lastAchievement||-1;imgSwitchCount=s.imgSwitchCount||0;easterEggs=s.easterEggs||0;unlockedAch=s.unlockedAch||[];totalImagesViewed=s.totalImagesViewed||[];currentImgIndex=s.currentImgIndex||0;
+        switchImage(currentImgIndex);updateStats();checkAchievements();}
+    }catch(e){}
+}
+
+/* ===== EVENT LISTENERS ===== */
+characterDisplay.addEventListener("click",handleClick);
+characterDisplay.addEventListener("touchstart",function(e){
+    // Don't interfere with long press
+    if(e.touches.length===1){
+        var t=e.touches[0];
+        // Single tap handling done via click event
+    }
+},{passive:false});
+
+/* ===== INIT ===== */
+setInterval(saveStats,5000);
+window.addEventListener("beforeunload",saveStats);
+loadStats();
+createParticles();createBgHearts();updateStats();updateCryMeter();
+
+setTimeout(function(){showSpeech("クリックしてね ♡",3000);},1500);
+
+console.log("%c♡ 爱音洗脑网 v2.0 ♡ %c已就绪！","color:#ff7eb3;font-size:1.2em;font-weight:bold;","color:#ffb6d3;");
+console.log("%c新功能：多图片切换 | 30+成就 | 彩蛋 | 右键暴哭 | 键盘快捷键","color:#ffb6d3;");
+console.log("%c试试输入 ANON MYGO CRY RAGE RAINBOW ~","color:#ff7eb3;");
 })();
     </script>
 </body>
