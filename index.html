@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>爱音洗脑网 - 千早爱音</title>
+    <meta name="description" content="献给《BanG Dream! It's MyGO!!!!!》最可爱的千早爱音 | 点一点爱音，听爱音唐哭" />
+    <meta property="og:title" content="爱音洗脑网" />
+    <meta property="og:description" content="献给《BanG Dream! It's MyGO!!!!!》最可爱的千早爱音" />
+    <style>
+        :root { --pink: #ff7eb3; --pink-light: #ffb6d3; --pink-dark: #e85d8c; --bg: #1a1a2e; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 30%, #3d1b3d 60%, #1a1a2e 100%);
+            background-attachment: fixed; min-height: 100vh; overflow-x: hidden;
+            cursor: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22none%22 stroke=%22%23ff7eb3%22 stroke-width=%222%22/><circle cx=%2216%22 cy=%2213%22 r=%223%22 fill=%22%23ff7eb3%22 opacity=%220.6%22/></svg>") 16 16, auto;
+            -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none;
+        }
+        .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .particle { position: absolute; border-radius: 50%; pointer-events: none; animation: floatUp linear infinite; opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; } 90% { opacity: 0.2; }
+            100% { transform: translateY(-100px) scale(1) rotate(720deg); opacity: 0; }
+        }
+        .main-container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        .header { text-align: center; margin-bottom: 10px; animation: slideDown 0.8s ease-out; }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .header .title {
+            font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
+            background: linear-gradient(135deg, #ff7eb3, #ff4081, #ffb6d3);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            letter-spacing: 4px; margin-bottom: 8px;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow {
+            0% { filter: drop-shadow(0 0 8px rgba(255,126,179,0.4)); }
+            100% { filter: drop-shadow(0 0 20px rgba(255,126,179,0.8)); }
+        }
+        .header .subtitle { font-size: 1rem; color: #ffb6d3; letter-spacing: 2px; opacity: 0.8; }
+        .character-card {
+            position: relative; width: min(420px, 90vw);
+            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+            border-radius: 30px; padding: 30px 20px 25px;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,126,179,0.25);
+            box-shadow: 0 20px 60px rgba(255,64,129,0.15), 0 0 80px rgba(255,126,179,0.08), inset 0 1px 0 rgba(255,255,255,0.1);
+            display: flex; flex-direction: column; align-items: center;
+            transition: all 0.3s ease; animation: cardAppear 1s ease-out 0.2s both;
+        }
+        @keyframes cardAppear { from { transform: scale(0.8) translateY(30px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+        .character-card:hover {
+            border-color: rgba(255,126,179,0.5);
+            box-shadow: 0 25px 70px rgba(255,64,129,0.25), 0 0 100px rgba(255,126,179,0.15), inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+        .character-display { position: relative; width: 280px; height: 280px; cursor: pointer; transition: transform 0.15s ease; margin-bottom: 10px; }
+        .character-display:active { transform: scale(0.92); }
+        .character-display.poked { animation: pokeBounce 0.5s ease; }
+        @keyframes pokeBounce {
+            0% { transform: scale(1); } 30% { transform: scale(0.85); }
+            50% { transform: scale(1.08); } 70% { transform: scale(0.95); } 100% { transform: scale(1); }
+        }
+        .character-display.crying { animation: cryShake 0.6s ease-in-out; }
+        @keyframes cryShake {
+            0%,100% { transform: translateX(0); } 15% { transform: translateX(-8px) rotate(-3deg); }
+            30% { transform: translateX(8px) rotate(3deg); } 45% { transform: translateX(-6px) rotate(-2deg); }
+            60% { transform: translateX(6px) rotate(2deg); } 75% { transform: translateX(-3px) rotate(-1deg); }
+            90% { transform: translateX(3px) rotate(1deg); }
+        }
+        .character-img {
+            width: 100%; height: 100%; object-fit: contain; border-radius: 20px;
+            filter: drop-shadow(0 10px 30px rgba(255,126,179,0.4)); transition: filter 0.3s;
+        }
+        .character-display:hover .character-img { filter: drop-shadow(0 15px 40px rgba(255,126,179,0.6)); }
+        .click-ring {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 200px; height: 200px; border-radius: 50%;
+            border: 2px dashed rgba(255,126,179,0.3); pointer-events: none;
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+        @keyframes ringPulse {
+            0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%,-50%) scale(1.15); opacity: 0.15; }
+        }
+        .ripple {
+            position: absolute; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,126,179,0.6), transparent);
+            pointer-events: none; animation: rippleOut 0.8s ease-out forwards;
+        }
+        @keyframes rippleOut { from { width: 0; height: 0; opacity: 1; } to { width: 300px; height: 300px; opacity: 0; } }
+        .stats { display: flex; gap: 30px; margin-top: 15px; flex-wrap: wrap; justify-content: center; }
+        .stat-item { text-align: center; animation: statPop 0.6s ease-out both; }
+        .stat-item:nth-child(1) { animation-delay: 0.4s; } .stat-item:nth-child(2) { animation-delay: 0.5s; } .stat-item:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes statPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .stat-number { font-size: 2rem; font-weight: 900; color: #ff7eb3; text-shadow: 0 0 20px rgba(255,126,179,0.5); line-height: 1; }
+        .stat-label { font-size: 0.8rem; color: #ffb6d3; margin-top: 4px; letter-spacing: 1px; opacity: 0.7; }
+        .name-tag {
+            margin-top: 15px; padding: 8px 28px;
+            background: linear-gradient(135deg, rgba(255,126,179,0.2), rgba(255,64,129,0.15));
+            border-radius: 50px; border: 1px solid rgba(255,126,179,0.3);
+            font-size: 1.1rem; color: #ffb6d3; letter-spacing: 3px; font-weight: 600;
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .speech-bubble {
+            position: absolute; top: -45px; left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: rgba(255,255,255,0.95); color: #e85d8c;
+            padding: 10px 18px; border-radius: 20px;
+            font-size: 0.95rem; font-weight: 700; letter-spacing: 1px;
+            white-space: nowrap; pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 10;
+        }
+        .speech-bubble.show { transform: translateX(-50%) scale(1); }
+        .speech-bubble::after {
+            content: ""; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent;
+            border-top: 10px solid rgba(255,255,255,0.95);
+        }
+        .tear {
+            position: absolute; width: 10px; height: 14px;
+            background: linear-gradient(180deg, #87ceeb, #4da6ff);
+            border-radius: 50% 0 50% 50%; transform: rotate(45deg);
+            pointer-events: none; animation: tearDrop 1.2s ease-in forwards; z-index: 5;
+        }
+        @keyframes tearDrop {
+            0% { opacity: 1; transform: rotate(45deg) translateY(0); }
+            100% { opacity: 0; transform: rotate(45deg) translateY(80px); }
+        }
+        .float-emoji {
+            position: absolute; font-size: 1.5rem; pointer-events: none;
+            animation: emojiFloat 1.5s ease-out forwards; z-index: 10;
+        }
+        @keyframes emojiFloat {
+            0% { opacity: 1; transform: translateY(0) scale(0.5); }
+            30% { opacity: 1; transform: translateY(-40px) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-120px) scale(0.3); }
+        }
+        .footer {
+            margin-top: 30px; text-align: center; color: rgba(255,182,211,0.5);
+            font-size: 0.8rem; letter-spacing: 2px; animation: fadeIn 1.5s ease-out 0.8s both;
+        }
+        .footer .heart { color: #ff7eb3; animation: heartbeat 1.5s ease-in-out infinite; display: inline-block; }
+        @keyframes heartbeat {
+            0%,100% { transform: scale(1); } 25% { transform: scale(1.2); } 50% { transform: scale(1); } 75% { transform: scale(1.15); }
+        }
+        .toast {
+            position: fixed; top: 30px; left: 50%;
+            transform: translateX(-50%) translateY(-120px);
+            background: linear-gradient(135deg, #ff7eb3, #ff4081);
+            color: white; padding: 12px 30px; border-radius: 50px;
+            font-weight: 700; letter-spacing: 2px; font-size: 0.95rem; z-index: 100;
+            box-shadow: 0 10px 40px rgba(255,64,129,0.4);
+            transition: transform 0.5s cubic-bezier(0.175,0.885,0.32,1.275); pointer-events: none;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .bg-heart {
+            position: fixed; pointer-events: none; z-index: 0;
+            animation: heartBgFloat 15s linear infinite; font-size: 2rem; opacity: 0.06;
+        }
+        @keyframes heartBgFloat {
+            0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); }
+        }
+        .combo-display {
+            position: fixed; top: 50%; right: 30px; transform: translateY(-50%);
+            text-align: center; z-index: 5; pointer-events: none; opacity: 0; transition: all 0.4s ease;
+        }
+        .combo-display.active { opacity: 1; }
+        .combo-number { font-size: 3rem; font-weight: 900; color: #ff7eb3; text-shadow: 0 0 30px rgba(255,126,179,0.8); line-height: 1; }
+        .combo-label { font-size: 0.7rem; color: #ffb6d3; letter-spacing: 2px; margin-top: 4px; }
+        .screen-flash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(255,126,179,0.3), transparent);
+            pointer-events: none; z-index: 50; opacity: 0; transition: opacity 0.15s ease;
+        }
+        .screen-flash.active { opacity: 1; }
+        @media (max-width: 480px) {
+            .character-display { width: 220px; height: 220px; }
+            .click-ring { width: 160px; height: 160px; }
+            .stats { gap: 20px; } .stat-number { font-size: 1.5rem; }
+            .header .title { font-size: 1.8rem; }
+            .combo-display { right: 10px; } .combo-number { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="bgHearts"></div>
+    <div class="particles-container" id="particles"></div>
+    <div class="screen-flash" id="screenFlash"></div>
+    <div class="toast" id="toast"></div>
+    <div class="combo-display" id="comboDisplay">
+        <div class="combo-number" id="comboNumber">0</div>
+        <div class="combo-label">C O M B O</div>
+    </div>
+    <div class="main-container">
+        <div class="header">
+            <h1 class="title">♡ 爱音洗脑网 ♡</h1>
+            <p class="subtitle">✦ 点一点爱音，听听爱音的可爱声音吧 ✦</p>
+        </div>
+
+        <div class="character-card" id="characterCard">
+            <div class="character-display" id="characterDisplay">
+                <div class="click-ring"></div>
+                <div class="speech-bubble" id="speechBubble"></div>
+
+                <img class="character-img" src="anon_cry.gif" alt="千早爱音" id="characterImg" />
+            </div>
+
+            <div class="name-tag">千 早 爱 音</div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="clickCount">0</div>
+                    <div class="stat-label">点 击 次 数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="cryCount">0</div>
+                    <div class="stat-label">哭 哭 次 数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="comboBest">0</div>
+                    <div class="stat-label">最 高 连 击</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>献给 <span class="heart">♡</span> 《BanG Dream! It's MyGO!!!!!》 最可爱的 <span class="heart">千早爱音</span> <span class="heart">♡</span></p>
+            <p style="margin-top:6px;opacity:0.5;font-size:0.7rem;">Anon Chihaya Brainwash Site | 点一点爱音吧~</p>
+        </div>
+    </div>
+
+    <audio id="cryAudio" src="anon_cry.m4a" preload="auto"></audio>
+    <script>
+(function() {
+    var totalClicks = 0;
+    var totalCries = 0;
+    var bestCombo = 0;
+    var currentCombo = 0;
+    var comboTimer = null;
+    var COMBO_TIMEOUT = 1500;
+    var audioCtx = null;
+    var lastMessage = "";
+    var lastAchievement = -1;
+
+    var characterDisplay = document.getElementById("characterDisplay");
+    var speechBubble = document.getElementById("speechBubble");
+    var screenFlash = document.getElementById("screenFlash");
+    var toast = document.getElementById("toast");
+    var comboDisplay = document.getElementById("comboDisplay");
+    var comboNumber = document.getElementById("comboNumber");
+    var clickCountEl = document.getElementById("clickCount");
+    var cryCountEl = document.getElementById("cryCount");
+    var comboBestEl = document.getElementById("comboBest");
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === "suspended") { audioCtx.resume(); }
+    }
+
+    /* Anon crying sound - real audio recording */
+    function playCrySound() {
+        initAudio();
+        var audio = document.getElementById("cryAudio");
+        if (audio) {
+            audio.currentTime = 0;
+            audio.play().catch(function(e) {
+                console.log("Audio play failed:", e);
+            });
+        }
+    }
+/* Cute pop sound for normal clicks */
+    function playPopSound() {
+        if (!audioCtx) initAudio();
+        if (!audioCtx) return;
+        var now = audioCtx.currentTime;
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(800, now);
+        osc.frequency.exponentialRampToValueAtTime(400, now + 0.08);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.12);
+    }
+
+    /* Achievement fanfare */
+    function playAchievementSound() {
+        if (!audioCtx) initAudio();
+        if (!audioCtx) return;
+        var now = audioCtx.currentTime;
+        var notes = [523, 659, 784, 1047];
+        notes.forEach(function(freq, i) {
+            var osc = audioCtx.createOscillator();
+            var gain = audioCtx.createGain();
+            osc.type = "triangle";
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0, now + i * 0.1);
+            gain.gain.linearRampToValueAtTime(0.12, now + i * 0.1 + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.3);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + i * 0.1);
+            osc.stop(now + i * 0.1 + 0.35);
+        });
+    }
+
+    /* Speech bubble messages */
+    var messages = [
+        "あの…", "やめてよ〜", "うぅ…ひどい…", "えーん！", "泣いちゃうよ…",
+        "もう…", "ぷんぷん！", "ばか！", "うわーん！", "ぐすん…",
+        "アノン東京！", "ひっく…", "やだやだ！", "いたいよ〜",
+        "もう知らない！", "ぴえん🥺", "えええ〜ん", "なんで〜", "ひどいよぉ…", "うぅぅ…"
+    ];
+
+    var cryMessages = [
+        "うわーん！！！", "えーーーん！！！", "大泣き！！", "ぐすんぐすん…",
+        "わーーーん！", "ひっくひっく…", "もうダメ…", "泣き止まない！"
+    ];
+
+    function getRandomMessage(arr) {
+        var msg;
+        do { msg = arr[Math.floor(Math.random() * arr.length)]; }
+        while (msg === lastMessage && arr.length > 1);
+        lastMessage = msg;
+        return msg;
+    }
+
+    function showSpeechBubble(text, duration) {
+        duration = duration || 1800;
+        speechBubble.textContent = text;
+        speechBubble.classList.add("show");
+        clearTimeout(speechBubble._timeout);
+        speechBubble._timeout = setTimeout(function() {
+            speechBubble.classList.remove("show");
+        }, duration);
+    }
+
+    function createRipple(x, y) {
+        var ripple = document.createElement("div");
+        ripple.className = "ripple";
+        ripple.style.left = x + "px";
+        ripple.style.top = y + "px";
+        ripple.style.transform = "translate(-50%, -50%)";
+        characterDisplay.appendChild(ripple);
+        setTimeout(function() { ripple.remove(); }, 800);
+    }
+
+    function createTear(x, y) {
+        var tear = document.createElement("div");
+        tear.className = "tear";
+        tear.style.left = x + "px";
+        tear.style.top = y + "px";
+        characterDisplay.appendChild(tear);
+        setTimeout(function() { tear.remove(); }, 1200);
+    }
+
+    function createFloatEmoji(x, y) {
+        var emojis = ["💧", "😢", "💕", "✨", "😭", "💦", "🥺", "🎀", "💗"];
+        var emoji = document.createElement("div");
+        emoji.className = "float-emoji";
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = x + "px";
+        emoji.style.top = y + "px";
+        characterDisplay.appendChild(emoji);
+        setTimeout(function() { emoji.remove(); }, 1500);
+    }
+
+    function flashScreen() {
+        screenFlash.classList.add("active");
+        setTimeout(function() { screenFlash.classList.remove("active"); }, 150);
+    }
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(function() {
+            toast.classList.remove("show");
+        }, 2500);
+    }
+
+    function updateCombo() {
+        clearTimeout(comboTimer);
+        if (currentCombo >= 5) { comboDisplay.classList.add("active"); }
+        comboNumber.textContent = currentCombo;
+        if (currentCombo > bestCombo) {
+            bestCombo = currentCombo;
+            comboBestEl.textContent = bestCombo;
+        }
+        comboTimer = setTimeout(function() {
+            if (currentCombo >= 5) { comboDisplay.classList.remove("active"); }
+            currentCombo = 0;
+            comboNumber.textContent = "0";
+        }, COMBO_TIMEOUT);
+    }
+
+    var achievements = [
+        { threshold: 10, message: "🏆 达成成就：初触爱音！" },
+        { threshold: 30, message: "🌟 达成成就：爱音的朋友！" },
+        { threshold: 50, message: "💕 达成成就：爱音推し！" },
+        { threshold: 100, message: "👑 达成成就：爱音大师！" },
+        { threshold: 200, message: "🎀 达成成就：爱音狂热者！" },
+        { threshold: 500, message: "💎 达成成就：传奇爱音厨！" },
+        { threshold: 1000, message: "✨ 达成成就：ANON TOKYO！" }
+    ];
+
+    function checkAchievements() {
+        for (var i = achievements.length - 1; i >= 0; i--) {
+            if (totalClicks >= achievements[i].threshold && i > lastAchievement) {
+                lastAchievement = i;
+                showToast(achievements[i].message);
+                playAchievementSound();
+                break;
+            }
+        }
+    }
+
+    function updateStats() {
+        clickCountEl.textContent = totalClicks;
+        cryCountEl.textContent = totalCries;
+        comboBestEl.textContent = bestCombo;
+    }
+
+    var cryTimeout = null;
+    function showCryingFace() {
+        var img = document.getElementById("characterImg");
+        if (img) { img.style.filter = "drop-shadow(0 10px 30px rgba(255,126,179,0.8)) brightness(1.1)"; }
+        clearTimeout(cryTimeout);
+        cryTimeout = setTimeout(function() {
+            if (img) { img.style.filter = "drop-shadow(0 10px 30px rgba(255,126,179,0.4))"; }
+        }, 1500);
+    }
+
+    /* Main click handler */
+    function handleClick(e) {
+        initAudio();
+        totalClicks++;
+        currentCombo++;
+        var rect = characterDisplay.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var isCry = Math.random() < 0.3 || currentCombo % 10 === 0;
+
+        if (isCry) {
+            totalCries++;
+            playCrySound();
+            characterDisplay.classList.add("crying");
+            showCryingFace();
+            showSpeechBubble(getRandomMessage(cryMessages), 2000);
+            createTear(x - 25, y - 40);
+            createTear(x + 25, y - 40);
+            setTimeout(function() {
+                createTear(x - 20, y - 35);
+                createTear(x + 20, y - 35);
+            }, 300);
+            createFloatEmoji(x - 10, y - 30);
+            createFloatEmoji(x + 10, y - 20);
+            flashScreen();
+            setTimeout(function() { characterDisplay.classList.remove("crying"); }, 600);
+        } else {
+            playPopSound();
+            characterDisplay.classList.add("poked");
+            showSpeechBubble(getRandomMessage(messages), 1500);
+            createFloatEmoji(x, y - 20);
+            setTimeout(function() { characterDisplay.classList.remove("poked"); }, 500);
+        }
+
+        createRipple(x, y);
+        updateCombo();
+        updateStats();
+        checkAchievements();
+
+        /* Combo milestones */
+        if (currentCombo > 0 && currentCombo % 20 === 0) {
+            showToast("🔥 " + currentCombo + " 连击！爱音要哭晕过去啦！");
+            flashScreen();
+        }
+        if (currentCombo > 0 && currentCombo % 50 === 0) {
+            showToast("💥 超级连击 " + currentCombo + "！！爱音大暴哭！！");
+            flashScreen();
+            for (var i = 0; i < 8; i++) {
+                (function(idx) {
+                    setTimeout(function() {
+                        createTear(
+                            x + (Math.random() - 0.5) * 80,
+                            y + (Math.random() - 0.5) * 60
+                        );
+                    }, idx * 80);
+                })(i);
+            }
+        }
+    }
+
+    /* Background particles */
+    function createParticles() {
+        var container = document.getElementById("particles");
+        var colors = ["#ff7eb3","#ffb6d3","#ff4081","#ffde59","#87ceeb","#dda0dd"];
+        function addParticle() {
+            var p = document.createElement("div");
+            p.className = "particle";
+            p.style.left = Math.random() * 100 + "%";
+            p.style.width = (Math.random() * 8 + 3) + "px";
+            p.style.height = p.style.width;
+            p.style.background = colors[Math.floor(Math.random() * colors.length)];
+            p.style.animationDuration = (Math.random() * 10 + 8) + "s";
+            container.appendChild(p);
+            setTimeout(function() { p.remove(); }, 18000);
+        }
+        for (var i = 0; i < 20; i++) { setTimeout(addParticle, i * 200); }
+        setInterval(function() { if (!document.hidden) addParticle(); }, 1500);
+    }
+
+    /* Background hearts */
+    function createBgHearts() {
+        var container = document.getElementById("bgHearts");
+        var hearts = ["♡","♥","♡","💕","♡"];
+        function addHeart() {
+            var h = document.createElement("div");
+            h.className = "bg-heart";
+            h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            h.style.left = Math.random() * 95 + "%";
+            h.style.animationDuration = (Math.random() * 20 + 15) + "s";
+            h.style.fontSize = (Math.random() * 2 + 1.5) + "rem";
+            container.appendChild(h);
+            setTimeout(function() { h.remove(); }, 35000);
+        }
+        for (var i = 0; i < 8; i++) { setTimeout(addHeart, i * 1500); }
+        setInterval(function() { if (!document.hidden) addHeart(); }, 4000);
+    }
+
+    /* Event listeners */
+    characterDisplay.addEventListener("click", handleClick);
+    characterDisplay.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        var touch = e.touches[0];
+        handleClick({ clientX: touch.clientX, clientY: touch.clientY });
+    }, { passive: false });
+
+    /* Keyboard support */
+    document.addEventListener("keydown", function(e) {
+        if (e.code === "Space" || e.code === "Enter") {
+            e.preventDefault();
+            var rect = characterDisplay.getBoundingClientRect();
+            handleClick({ clientX: rect.left + rect.width / 2, clientY: rect.top + rect.height / 2 });
+        }
+    });
+
+    /* LocalStorage persistence */
+    function saveStats() {
+        try {
+            localStorage.setItem("anon_stats", JSON.stringify({
+                clicks: totalClicks, cries: totalCries,
+                bestCombo: bestCombo, lastAchievement: lastAchievement
+            }));
+        } catch(e) {}
+    }
+
+    function loadStats() {
+        try {
+            var saved = JSON.parse(localStorage.getItem("anon_stats"));
+            if (saved) {
+                totalClicks = saved.clicks || 0;
+                totalCries = saved.cries || 0;
+                bestCombo = saved.bestCombo || 0;
+                lastAchievement = saved.lastAchievement || -1;
+                updateStats();
+                checkAchievements();
+            }
+        } catch(e) {}
+    }
+
+    setInterval(saveStats, 5000);
+    window.addEventListener("beforeunload", saveStats);
+    loadStats();
+    createParticles();
+    createBgHearts();
+    updateStats();
+
+    /* Initial greeting */
+    setTimeout(function() {
+        showSpeechBubble("クリックしてね ♡", 3000);
+    }, 1500);
+
+    console.log("%c♡ 爱音洗脑网 ♡ %c已就绪！","color:#ff7eb3;font-size:1.2em;font-weight:bold;","color:#ffb6d3;");
+    console.log("%c点一点千早爱音，听她可爱的哭声吧~ %c(｡•́︿•̀｡)","color:#ffb6d3;","color:#ff7eb3;font-size:1.1em;");
+})();
+    </script>
+</body>
+</html>
